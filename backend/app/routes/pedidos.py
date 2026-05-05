@@ -1,24 +1,11 @@
-from fastapi import APIRouter
-from app.database.memory import carrinho, pedidos
+from fastapi import APIRouter, Depends
+from sqlalchemy.orm import Session
+from app.database_config import get_db
 
-router = APIRouter()
+router = APIRouter(prefix="/pedidos", tags=["Pedidos"])
 
-@router.post("/pedido")
-def finalizar_pedido():
-    if len(carrinho) == 0:
-        return {"erro": "Carrinho vazio"}
 
-    total = 0
-
-    for item in carrinho:
-        total += item["preco"]
-
-    pedido = {
-        "itens": carrinho.copy(),
-        "total": total
-    }
-
-    pedidos.append(pedido)
-    carrinho.clear()
-
-    return pedido
+@router.post("")
+def finalizar_pedido(db: Session = Depends(get_db)):
+    """Rota temporária - será reformulada com sistema de sessão no BLOCO 2"""
+    return {"mensagem": "Recurso em desenvolvimento - use /sessions/{session_id}/checkout"}

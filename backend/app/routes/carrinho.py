@@ -1,40 +1,35 @@
-from fastapi import APIRouter
-from app.database.memory import produtos, carrinho
+from fastapi import APIRouter, Depends, HTTPException
+from sqlalchemy.orm import Session
+from app.database_config import get_db
 
-router = APIRouter()
+router = APIRouter(prefix="/carrinho", tags=["Carrinho"])
 
-@router.post("/carrinho/{id}")
-def adicionar_ao_carrinho(id: int):
-    for produto in produtos:
-        if produto["id"] == id:
-            carrinho.append(produto)
-            return {"mensagem": "Produto adicionado ao carrinho"}
 
-    return {"erro": "Produto não encontrado"}
+@router.post("/{id}")
+def adicionar_ao_carrinho(id: int, db: Session = Depends(get_db)):
+    """Rota temporária - será reformulada com sistema de sessão no BLOCO 2"""
+    return {"mensagem": "Recurso em desenvolvimento - use /sessions/{session_id}/cart"}
 
-@router.get("/carrinho")
-def listar_carrinho():
-    return carrinho
 
-@router.get("/carrinho/total")
-def calcular_total():
-    total = 0
+@router.get("")
+def listar_carrinho(db: Session = Depends(get_db)):
+    """Rota temporária - será reformulada com sistema de sessão no BLOCO 2"""
+    return {"mensagem": "Recurso em desenvolvimento - use /sessions/{session_id}/cart"}
 
-    for item in carrinho:
-        total += item["preco"]
 
-    return {"total": total}
+@router.get("/total")
+def calcular_total(db: Session = Depends(get_db)):
+    """Rota temporária - será reformulada com sistema de sessão no BLOCO 2"""
+    return {"total": 0}
 
-@router.delete("/carrinho/{id}")
-def remover_do_carrinho(id: int):
-    for item in carrinho:
-        if item["id"] == id:
-            carrinho.remove(item)
-            return {"mensagem": "Produto removido"}
 
-    return {"erro": "Produto não encontrado no carrinho"}
+@router.delete("/{id}")
+def remover_do_carrinho(id: int, db: Session = Depends(get_db)):
+    """Rota temporária - será reformulada com sistema de sessão no BLOCO 2"""
+    return {"mensagem": "Recurso em desenvolvimento"}
 
-@router.delete("/carrinho")
-def limpar_carrinho():
-    carrinho.clear()
-    return {"mensagem": "Carrinho limpo"}
+
+@router.delete("")
+def limpar_carrinho(db: Session = Depends(get_db)):
+    """Rota temporária - será reformulada com sistema de sessão no BLOCO 2"""
+    return {"mensagem": "Recurso em desenvolvimento"}
